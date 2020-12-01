@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sqaaas-api-stage-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqaaas-api-stage-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqaaas-api-stage-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: sqaaas-api-stage-deployment
+  template:
+    metadata:
+      labels:
+        run: sqaaas-api-stage-deployment
+    spec:
+      containers:
+      - name: sqaaas-api-stage
+        image: eoscsynergy/sqaaas-api-stage
+        volumeMounts:
+        - name: sqaaas-api-stage-persistent-storage
+          mountPath: /sqaaas
+        - name: sqaaas-api-stage-creds-volume
+          mountPath: /etc/sqaaas
+          readOnly: true
+      volumes:
+      - name: sqaaas-api-stage-persistent-storage
+        persistentVolumeClaim:
+          claimName: sqaaas-api-stage-pv-claim
+      - name: sqaaas-api-stage-creds-volume
+        projected:
+          sources:
+          - secret:
+              name: github-token
+              items:
+              - key: .gh_token
+                path: .gh_token
+          - secret:
+              name: jenkins-token
+              items:
+              - key: .jk_token
+                path: .jk_token
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqaaas-api-stage-service
+spec:
+  type: NodePort
+  selector:
+    run: sqaaas-api-stage-deployment
+  ports:
+    - port: 80
+      targetPort: 8080

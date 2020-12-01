@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqaaas-api-dev-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: sqaaas-api-dev-deployment
+  template:
+    metadata:
+      labels:
+        run: sqaaas-api-dev-deployment
+    spec:
+      containers:
+      - name: sqaaas-api-dev
+        image: danielgtaylor/apisprout
+        args: ["https://raw.githubusercontent.com/EOSC-synergy/sqaaas-api-spec/prototype/1.0/build/dist.yaml"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqaaas-api-dev-service
+spec:
+  type: NodePort
+  selector:
+    run: sqaaas-api-dev-deployment
+  ports:
+    - port: 80
+      targetPort: 8000
