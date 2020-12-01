@@ -2,6 +2,8 @@
 
 Catch-all repository for the SQAaaS platform, developed under the scope of EOSC-Synergy project.
 
+![image](https://drive.google.com/uc?export=view&id=1aylGtnLwcSQA6qwfccxfQKhcGM5LIkZl)
+
 ## Components
 * JePL [`jenkins-pipeline-library`](https://github.com/indigo-dc/jenkins-pipeline-library)
 * OpenAPI specification [`jenkins-pipeline-library`](https://github.com/eosc-synergy/sqaaas-api-spec)
