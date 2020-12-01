@@ -4,13 +4,13 @@ metadata:
   name: name-based-virtualhost-ingress
   annotations:
     nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
     nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
 spec:
   tls:
-    - secretName: sqaaas-api-dev-secret 
-    - secretName: sqaaas-api-stage-secret 
+    - secretName: sqaaas-api-dev-secret
+    - secretName: sqaaas-api-stage-secret
   rules:
   - host: api-dev.sqaaas.eosc-synergy.eu
     http:
