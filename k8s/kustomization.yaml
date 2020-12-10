@@ -1,5 +1,8 @@
+namespace: sqaaas
 resources:
-  - sqaaas-api-deployment.yaml
+  - namespace.yaml
+  - sqaaas-api-dev.yaml
+  - sqaaas-api-staging.yaml
 secretGenerator:
 - name: github-token
   files:

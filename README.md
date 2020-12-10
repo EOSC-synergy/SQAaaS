@@ -11,13 +11,26 @@ This is a catch-all repository for the SQAaaS platform, which is developed under
 * Web GUI [`jenkins-pipeline-library`](https://github.com/eosc-synergy/sqaaas-web)
 
 ## Deployment
+
+### Infrastructure deployment
+
+The APIs are exposed through HTTPS via the Kubernetes'
+[Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+The Kubernetes cluster is deployed (using
+   [IM dashboard](https://appsgrycap.i3m.upv.es:31443/im-dashboard/login)) on
+   top of a set of OpenStack VMs.
+
+### APIs deployment
+
 As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS components in a Kubernetes 
 cluster. Hence, from the root path of the repository, run:
 
 ```
-kubectl apply -k k8s/kustomization.yaml
+kubectl apply -k k8s
 ```
-### Secret tokens
+
+#### Secret tokens
 Since SQAaaS leverages GitHub and Jenkins APIs, we will need tokens for those components. The former
 `kustomization.yaml` file is expecting them in the following paths (again from the root path of the
 repository):
