@@ -14,12 +14,13 @@ This is a catch-all repository for the SQAaaS platform, which is developed under
 
 ### Infrastructure deployment
 
-The APIs are exposed through HTTPS via the Kubernetes'
-[Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/).
-
 The Kubernetes cluster is deployed (using
    [IM dashboard](https://appsgrycap.i3m.upv.es:31443/im-dashboard/login)) on
-   top of a set of OpenStack VMs.
+   top of EGI Cloud Compute federation.
+
+The APIs are exposed through HTTPS via the Kubernetes'
+[Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/) that is automatically installed
+by the IM.
 
 ### APIs deployment
 
@@ -36,6 +37,16 @@ Since SQAaaS leverages GitHub and Jenkins APIs, we will need tokens for those co
 repository):
 * GitHub API token: `./k8s/.gh_token`
 * Jenkins API token: `./k8s/.jk_token`
+
+## Testing
+- Development API:
+  ```
+  $ curl https://<maste_node_ip>/sqaaas-dev/pipeline/1
+  ```
+- Staging API:
+  ```
+  $ curl https://<master_node_ip>/sqaaas-stagev1/pipeline/
+  ```
 
 ---
 **NOTE**
