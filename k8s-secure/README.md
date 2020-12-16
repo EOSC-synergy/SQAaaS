@@ -28,7 +28,7 @@ requiring a valid `{active: true}` in the JSON response obtained from the IdP.
 In order to be successful, the request to `/introspect` must also include a
 basic authorization header `'Authorization: Basic <code>'`, where `code` is
 the result of: *base64(<client_id>:<client_secret>)*. The client id and secret
-must exist and be enabled in IdP.
+must exist and be enabled beforehand in the IdP.
 
 ## The Setup
 
@@ -36,6 +36,16 @@ The setup leverages the NGINX ingress controller to:
 1. Enable HTTPS, through the use of Sectigo certificates.
 2. Implement OAuth2 token introspection.
 
-### HTTPS
+### Create the TLS secrets
+The certificates are handled as TLS secrets by Kubernetes, so we need
+to create one secret per API endpoint as follows:
+```
+kubectl create secret generic sqaaas-api-prod-secret --from-file=tls.crt=<absolute-path-to-public-key> --from-file=tls.key=<absolute-path-to-private-key>
+```
 
-### Token introspection
+Substitute `<absolute-path-to-public-key>` and `<absolute-path-to-private-key>`
+with the appropriate path locations.
+
+### Create the secrets for the OIDC configuration
+As already introduced, the token introspection endpoint requires both the
+client id and secret to be included in the HTTP request.
