@@ -45,7 +45,7 @@ repository):
   ```
 - Staging API:
   ```
-  $ curl https://<master_node_ip>/sqaaas-stagev1/pipeline/
+  $ curl https://<master_node_ip>/sqaaas-stage/v1/pipeline/
   ```
 
 ---
