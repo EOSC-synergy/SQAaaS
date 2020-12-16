@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqaaas-api-dev-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: sqaaas-api-dev-deployment
+  template:
+    metadata:
+      labels:
+        run: sqaaas-api-dev-deployment
+    spec:
+      containers:
+      - name: sqaaas-api-dev
+        image: danielgtaylor/apisprout
+        args: ["https://raw.githubusercontent.com/EOSC-synergy/sqaaas-api-spec/prototype/1.0/build/dist.yaml"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqaaas-api-dev-service
+spec:
+  selector:
+    run: sqaaas-api-dev-deployment
+  ports:
+    - port: 80
+      targetPort: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sqaaas-ingress-dev
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: /sqaaas-dev
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - http:
+        paths:
+        - pathType: Prefix
+          path: /sqaaas-dev/?(.*)
+          backend:
+            service:
+              name: sqaaas-api-dev-service
+              port:
+                number: 80
