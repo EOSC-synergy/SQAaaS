@@ -41,11 +41,11 @@ repository):
 ## Testing
 - Development API:
   ```
-  $ curl https://<maste_node_ip>/sqaaas-dev/pipeline/1
+  $ curl http://<maste_node_ip>/sqaaas-dev/pipeline/1
   ```
 - Staging API:
   ```
-  $ curl https://<master_node_ip>/sqaaas-stage/v1/pipeline/
+  $ curl http://<master_node_ip>/sqaaas-stage/v1/pipeline/
   ```
 
 ---
