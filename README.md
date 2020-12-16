@@ -24,7 +24,7 @@ by the IM.
 
 ### APIs deployment
 
-As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS components in a Kubernetes 
+As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS components in a Kubernetes
 cluster. Hence, from the root path of the repository, run:
 
 ```
@@ -47,6 +47,11 @@ repository):
   ```
   $ curl http://<master_node_ip>/sqaaas-stage/v1/pipeline/
   ```
+
+## Securing services
+Please refer to the [Securing Services](k8s-secure) section for a thoroughtly
+explanation of the setup that secures the production services of the SQAaaS
+platform, using Kubernetes.
 
 ---
 **NOTE**
