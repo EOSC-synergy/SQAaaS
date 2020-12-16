@@ -6,9 +6,9 @@ This is a catch-all repository for the SQAaaS platform, which is developed under
 
 ## Components
 * JePL [`jenkins-pipeline-library`](https://github.com/indigo-dc/jenkins-pipeline-library)
-* OpenAPI specification [`jenkins-pipeline-library`](https://github.com/eosc-synergy/sqaaas-api-spec)
-* API server [`jenkins-pipeline-library`](https://github.com/eosc-synergy/sqaaas-api-server)
-* Web GUI [`jenkins-pipeline-library`](https://github.com/eosc-synergy/sqaaas-web)
+* OpenAPI specification [`sqaaas-api-spec`](https://github.com/eosc-synergy/sqaaas-api-spec)
+* API server [`sqaaas-api-server`](https://github.com/eosc-synergy/sqaaas-api-server)
+* Web GUI [`sqaaas-web`](https://github.com/eosc-synergy/sqaaas-web)
 
 ## Deployment
 
