@@ -1,29 +1,32 @@
-# Securing SQAaaS services
+# Securing SQAaaS APIs
 
-Following this guide, the SQAaaS services are deployed with HTTP-only access.
-In production environments it is often required to secure those services via
-HTTPS.
+The SQAaaS APIs are deployed in the production environment using HTTPS and
+the paths are protected using OAuth2 tokens (but in the case of the 
+development API). This guide describes the current setup, which uses the
+Kubernetes'
+[NGINX ingress controller](https://github.com/kubernetes/ingress-nginx) or
+*ingress-nginx*.
 
-This guide describes the solution implemented for the production
-SQAaaS APIs (
-[production](https://api.sqaaas.eosc-synergy.eu),
-[staging](https://api-staging.sqaaas.staging.eosc-synergy.eu),
-[development](https://api-dev.sqaaas.staging.eosc-synergy.eu).
+The SQAaaS APIs are accessible through the following endpoints:
+* Production: https://api.sqaaas.eosc-synergy.eu
+* Staging: https://api-staging.sqaaas.staging.eosc-synergy.eu
+* Development: https://api-dev.sqaaas.staging.eosc-synergy.eu
 
 ## OAuth2 Token Introspection
-The SQAaaS API server does not (deliberately) have built-in support for
-securing the available paths. Instead, it depends on the availability of a
-proxy-like solution that requires authentication for any incoming request.
-Hence, in order to be successfully authenticated, each HTTP request must
-include an OpenID bearer token (available through the request header) that
-will be subsequently validated by a process known as *token introspection*.
+The SQAaaS API server code does not (deliberately) implement the authentication
+of the available paths. Instead, it relies on the availability of an external
+authentication mechanism that must be put on top, which validates any incoming
+request. Hence, in order to be successfully authenticated, the current approach 
+requires that each HTTP request includes an OpenID bearer token (set in the
+request header) that will be subsequently validated by a process known as *token
+introspection*.
 
 ### The IdP
 
-The selected IdP for the production SQAaaS is the EOSC's
-[EGI Checkin](https://aai-dev.egi.eu). The SQAaaS APIs leverage the
-`/introspect` path in order check the validity of the incoming token, i.e.
-requiring a valid `{active: true}` in the JSON response obtained from the IdP.
+The selected IdP is the EOSC's [EGI Checkin](https://aai-dev.egi.eu). The
+SQAaaS APIs leverage the `/introspect` path, provided by the IdP, in order
+check the validity of the incoming token, i.e. requiring a valid
+`{active: true}` JSON response.
 
 In order to be successful, the request to `/introspect` must also include a
 basic authorization header `'Authorization: Basic <code>'`, where `code` is
@@ -32,13 +35,12 @@ must exist and be enabled beforehand in the IdP.
 
 ## The Setup
 
-Since the APIs use Kubernetes, the [NGINX ingress
-controller](https://github.com/kubernetes/ingress-nginx), known as 
-*ingress-nginx*, will be the one in charge of acting as the reverse proxy
-for the APIs. Two main actions are required for the *ingress-nginx* to perform:
+Since the APIs use Kubernetes, the *ingress-nginx* will be the one in charge
+of acting as the reverse proxy for the APIs. There are two main 
+requirements for the *ingress-nginx* controller:
 
-1. Enable HTTPS, through the use of Sectigo certificates.
-2. Implement OAuth2 token introspection.
+1. Expose the APIs through HTTPS (using Sectigo certificates)
+2. Implement OAuth2 token introspection
 
 ### HTTPS
 
@@ -46,18 +48,18 @@ for the APIs. Two main actions are required for the *ingress-nginx* to perform:
 The certificates are handled as TLS secrets by Kubernetes, so we need
 to create one secret per API endpoint as follows:
 ```
-kubectl create secret generic sqaaas-api-prod-secret --from-file=tls.crt=<absolute-path-to-public-key> --from-file=tls.key=<absolute-path-to-private-key>
+kubectl create secret generic sqaaas-api-prod-secret --from-file=tls.crt=<absolute-path-to-public-key-file> --from-file=tls.key=<absolute-path-to-private-key-file>
 ```
 
-Substitute `<absolute-path-to-public-key>` and `<absolute-path-to-private-key>`
-with the appropriate path locations.
+This secret has to be used in the [`tls` setting](https://github.com/EOSC-synergy/ingress-nginx/blob/custom/controller-v0.41.2/deploy/static/provider/baremetal/sqaaas-ingress.yaml#L40)
+within the ingress controller deployment.
 
 ### Token introspection
 We will follow the recommendations from
-(NGINX)[https://www.nginx.com/blog/validating-oauth-2-0-access-tokens-nginx/]
-and use the `auth_request` module in order to validate tokens. This setup uses
-the [njs JavaScript module](https://nginx.org/en/docs/njs/) in order to
-correctly interpret the HTTP response (JSON format) obtained from the IdP.
+[NGINX](https://www.nginx.com/blog/validating-oauth-2-0-access-tokens-nginx/),
+i.e. using the `auth_request` module in order to validate tokens. This setup
+relies on the [njs JavaScript module](https://nginx.org/en/docs/njs/) in order
+to correctly interpret the HTTP response (JSON format) obtained from the IdP.
 
 #### Extending *ingress-nginx* controller
 In order to implement the former NGINX solution for the token introspection, 

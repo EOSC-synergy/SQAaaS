@@ -49,7 +49,7 @@ repository):
   ```
 
 ## Securing services
-Please refer to the [Securing Services](docs/secure-services.md) doc for an
+Please refer to the [Securing APIs](docs/secure-services.md) doc for an
 in-deep explanation of the setup that secures the production services of the
 SQAaaS platform, using Kubernetes.
 
