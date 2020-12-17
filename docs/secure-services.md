@@ -67,12 +67,12 @@ we need to shape the `nginx.conf` file according to our needs. To this end,
 Kubernetes [NGINX annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/)
 provide the appropriate means, but as we will show, the current version
 (`controller-v0.41.2`) does not satisfy the whole set of settings needed to
-set up the token introspection. Hence, some of them will be added directly in
-the `nginx.tmpl` template. 
+set up the token introspection solution. Hence, some of them will be added
+directly in the `nginx.tmpl` template. 
 
-On the one hand, through the annotations we can include the [new locations and
+What we can do through the annotations is to include the [new locations and
 the call to `auth_request`](https://github.com/EOSC-synergy/ingress-nginx/blob/custom/controller-v0.41.2/deploy/static/provider/baremetal/sqaaas-ingress.yaml#L6-L34)
-in the server block, while, on the other hand, [direct modifications in the
+in the server block. The [direct modifications in the
 `nginx.tmpl` file](https://github.com/kubernetes/ingress-nginx/compare/master...EOSC-synergy:custom/controller-v0.41.2#diff-cbf382cc05c9f274b5db56a581b335dba8ecb80fd96a8f1a6a068b2594c9b1ca) are needed for those statements outside the scope of server
 block that are not currently allowed by the *ingress-nginx* implementation.
 
