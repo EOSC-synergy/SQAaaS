@@ -107,7 +107,8 @@ A new Docker controller image has to be built to add the formerly modified
 included in this template (njs module & `oauth2_token_introspection` folder).
 
 You just need to follow the instructions in the `ingress-nginx` repository and
-run something similar to the following:
+review the [development guidelines](https://kubernetes.github.io/ingress-nginx/development/).
+In the end you can run something similar to the following:
 ```
 export TAG=controller-v0.41.2
 export REGISTRY=eoscsynergy
@@ -117,3 +118,23 @@ make build image
 
 Once built locally, be sure to push it to the selected registry and *use the
 image in the* [controller deployment](https://github.com/EOSC-synergy/ingress-nginx/blob/custom/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml#L332).
+
+
+### Testing the API
+Get the refresh and access token from [EGI Check-in AAI dev](https://aai-dev.egi.eu/fedcloud/) using Fedcloud web interface. After the OIDC validation in web interface, the access token can be generated using the provided command that should appear there with the following syntax:
+```
+curl -X POST -u '<client id>':'<client secret>' -d 'client_id=<client id>&client_secret=<client secret>&grant_type=refresh_token&refresh_token=<refresh token>&scope=openid%20email%20profile' 'https://aai-dev.egi.eu/oidc/token' | python -m json.tool;
+```
+
+The curl command returns the JSON web token (JWT) that have the keys named `access_token` and `token_type` must have the value "Bearer".
+
+Finally, to test the API the following commands should return http 200 code:
+```
+curl -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/v1/openapi.json
+
+curl -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/sqaaas/v1/pipeline/
+
+curl -IH 'Authorization: Bearer <access_token>' https://api-staging.sqaaas.eosc-synergy.eu/sqaaas-stage/v1/pipeline/
+
+curl -kIH 'Authorization: Bearer <access_token>' https://api-dev.sqaaas.eosc-synergy.eu/sqaaas-dev/pipeline/1
+```
