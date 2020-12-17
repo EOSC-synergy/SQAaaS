@@ -98,3 +98,20 @@ in a separate volume, which will be subsequently mounted in the
 `/etc/nginx/oauth2_token_introspection/vars` path, as expected by the NGINX
 controller configuration. As already mentioned, the environment variables must
 be defined as Secrets.
+
+#### Building the controller image
+A new Docker controller image has to be built to add the formerly modified
+`nginx.tmpl` template, and adding as well all the associated files being
+included in this template (njs module & `oauth2_token_introspection` folder).
+
+You just need to follow the instructions in the `ingress-nginx` repository and
+run something similar to the following:
+```
+export TAG=controller-v0.41.2
+export REGISTRY=eoscsynergy
+
+make build image
+```
+
+Once built locally, be sure to push it to the selected registry and *use the
+image in the* [controller deployment](https://github.com/EOSC-synergy/ingress-nginx/blob/custom/controller-v0.41.2/deploy/static/provider/baremetal/deploy.yaml#L332).
