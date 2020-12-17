@@ -49,9 +49,9 @@ repository):
   ```
 
 ## Securing services
-Please refer to the [Securing Services](k8s-secure) section for a thoroughtly
-explanation of the setup that secures the production services of the SQAaaS
-platform, using Kubernetes.
+Please refer to the [Securing Services](docs/secure-services.md) doc for an
+in-deep explanation of the setup that secures the production services of the
+SQAaaS platform, using Kubernetes.
 
 ---
 **NOTE**
