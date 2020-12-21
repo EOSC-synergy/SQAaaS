@@ -31,12 +31,24 @@ cluster. Hence, from the root path of the repository, run:
 kubectl apply -k k8s
 ```
 
-#### Secret tokens
-Since SQAaaS leverages GitHub and Jenkins APIs, we will need tokens for those components. The former
-`kustomization.yaml` file is expecting them in the following paths (again from the root path of the
-repository):
+#### File dependencies
+The former `kustomization.yaml` file is expecting a set of data, i.e. secret
+tokens and the main configuration file, in order to successfully perform the
+deployment.
+
+**The paths are relative to the root path of the repository**.
+
+##### Secret tokens
+SQAaaS API leverages GitHub and Jenkins APIs, and accordingly, we will need
+tokens for those components. In particular:
 * GitHub API token: `./k8s/.gh_token`
 * Jenkins API token: `./k8s/.jk_token`
+
+##### Configuration file
+The SQAaaS API can be customized through a INI configuration file. An [sample
+INI file](https://github.com/EOSC-synergy/sqaaas-api-server/blob/master/etc/sqaaas.ini.sample)
+is distributed with the application.
+* SQAaaS API INI file: `./k8s/sqaaas.ini`
 
 ## Testing
 - Development API:

@@ -10,3 +10,7 @@ secretGenerator:
 - name: jenkins-token
   files:
   - .jk_token
+configMapGenerator:
+- name: api-config-file
+  files:
+    - sqaaas.ini
