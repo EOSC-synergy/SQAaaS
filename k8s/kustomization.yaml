@@ -1,8 +1,7 @@
 namespace: sqaaas
 resources:
   - namespace.yaml
-  - sqaaas-api-dev.yaml
-  - sqaaas-api-staging.yaml
+  - sqaaas-api.yaml
 secretGenerator:
 - name: github-token
   files:
@@ -10,3 +9,7 @@ secretGenerator:
 - name: jenkins-token
   files:
   - .jk_token
+configMapGenerator:
+- name: api-config-file
+  files:
+    - sqaaas.ini
