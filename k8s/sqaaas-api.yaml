@@ -50,6 +50,11 @@ spec:
               items:
               - key: .jk_token
                 path: .jk_token
+          - configMap:
+              name: api-config-file
+              items:
+              - key: sqaaas.ini
+                path: sqaaas.ini  
 ---
 apiVersion: v1
 kind: Service
