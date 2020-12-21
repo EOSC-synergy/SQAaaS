@@ -24,19 +24,19 @@ by the IM.
 
 ### APIs deployment
 
-As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS components in a Kubernetes 
-cluster. Hence, from the root path of the repository, run:
+As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS API
+server in a Kubernetes cluster. Hence, from the root path of the repository, run:
 
 ```
 kubectl apply -k k8s
 ```
 
-#### File dependencies
+#### Prerequisites
 The former `kustomization.yaml` file is expecting a set of data, i.e. secret
-tokens and the main configuration file, in order to successfully perform the
-deployment.
+tokens and the main configuration file, in order to perform the deployment with
+success.
 
-**The paths are relative to the root path of the repository**.
+*Note: the paths are relative to the root path of the repository*
 
 ##### Secret tokens
 SQAaaS API leverages GitHub and Jenkins APIs, and accordingly, we will need
@@ -50,11 +50,30 @@ INI file](https://github.com/EOSC-synergy/sqaaas-api-server/blob/master/etc/sqaa
 is distributed with the application.
 * SQAaaS API INI file: `./k8s/sqaaas.ini`
 
-## Testing
-- (Production) API:
-  ```
-  $ curl http://<master_node_ip>/sqaaas/v1/
-  ```
+### Testing
+The deployed API server can be accessed through the following URI: `http://<master_node_ip>/sqaaas/v1/`
+ 
+As an example, the following example lists the currently existing pipelines:
+```
+$ curl http://<master_node_ip>/sqaaas/v1/pipeline
+```
+  
+### Staging and development APIs
+Additionally, within the development process, it could be useful to deploy the staging (stub) and 
+development (mock) API servers. The `./k8s/` folder contains the YAMLs for deploying these APIs, so
+it is just a matter of adding them to the `./k8s/kustomization.yaml` file in the same way it was done
+with the production API:
+```
+resources:
+(..)
+- sqaaas-api-dev.yaml
+- sqaaas-api-staging.yaml
+(..)
+```
+
+Similarly, once re-deployed, the following command requests the list of pipelines for the staging and
+development APIs:
+
 - Staging API:
   ```
   $ curl http://<master_node_ip>/sqaaas-stage/v1/pipeline/
