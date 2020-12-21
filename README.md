@@ -51,13 +51,17 @@ is distributed with the application.
 * SQAaaS API INI file: `./k8s/sqaaas.ini`
 
 ## Testing
-- Development API:
+- (Production) API:
   ```
-  $ curl http://<maste_node_ip>/sqaaas-dev/pipeline/1
+  $ curl http://<master_node_ip>/sqaaas/v1/
   ```
 - Staging API:
   ```
   $ curl http://<master_node_ip>/sqaaas-stage/v1/pipeline/
+  ```
+- Development API:
+  ```
+  $ curl http://<master_node_ip>/sqaaas-dev/pipeline/
   ```
 
 ---
