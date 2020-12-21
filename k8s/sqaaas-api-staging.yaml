@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: sqaaas-api-stage
-        image: eoscsynergy/sqaaas-api-stage
+        image: eoscsynergy/sqaaas-api-server:staging
         volumeMounts:
         - name: sqaaas-api-stage-persistent-storage
           mountPath: /sqaaas
