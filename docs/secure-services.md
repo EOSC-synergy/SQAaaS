@@ -128,13 +128,28 @@ curl -X POST -u '<client id>':'<client secret>' -d 'client_id=<client id>&client
 
 The curl command returns the JSON web token (JWT) that have the keys named `access_token` and `token_type` must have the value "Bearer".
 
-Finally, to test the API the following commands should return http 200 code:
+
+Finally, to test the API the following commands should return http 200 code for each deployed endpoint. The following examples are specific for current EOSC Synergy deployment.
+
+* Production:
 ```
-curl -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/v1/openapi.json
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/v1/openapi.json
 
-curl -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/sqaaas/v1/pipeline/
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/v1/pipeline/
 
-curl -IH 'Authorization: Bearer <access_token>' https://api-staging.sqaaas.eosc-synergy.eu/sqaaas-stage/v1/pipeline/
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api.sqaaas.eosc-synergy.eu/v1/ui/
+```
 
-curl -kIH 'Authorization: Bearer <access_token>' https://api-dev.sqaaas.eosc-synergy.eu/sqaaas-dev/pipeline/1
+* Staging:
+```
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api-staging.sqaaas.eosc-synergy.eu/v1/openapi.json
+
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api-staging.sqaaas.eosc-synergy.eu/v1/pipeline/
+
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api-staging.sqaaas.eosc-synergy.eu/v1/ui/
+```
+
+* Development (note that in this case v1 is surpressed since api-dev is only a mock server):
+```
+curl -X GET -IH 'Authorization: Bearer <access_token>' https://api-dev.sqaaas.eosc-synergy.eu/pipeline/
 ```
