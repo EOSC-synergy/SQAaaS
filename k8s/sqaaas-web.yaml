@@ -1,13 +1,7 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: sqaaas-web
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sqaaas-web
-  namespace: sqaaaas-web
+  name: sqaaas-web  
   labels:
     app: sqaaas-web
 spec:
@@ -30,8 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sqaaas-web-service
-  namespace: sqaaaas-web
+  name: sqaaas-web-service  
 spec:  
   ports:
     - name: endpoint
@@ -45,7 +38,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sqaaas-web-ingress
-  namespace: sqaaas-web
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
