@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: sqaaas-web
-          image: "EOSC-SYNERGY/sqaaas-web"
+          image: "eoscsynergy/sqaaas-web"
           env : 
             - name: VUE_APP_BACKEND_HOST 
               value: "{{vue_app_backend_host}}"
