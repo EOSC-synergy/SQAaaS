@@ -16,7 +16,7 @@ STATIC_URL =  "/static/"
 ##
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.mysql', # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'badgrdb',                      # Or path to database file if using sqlite3.
         'USER': 'badgruser',                      # Not used with sqlite3.
         'PASSWORD': 'badgr-mysql-pass',                  # Not used with sqlite3.
