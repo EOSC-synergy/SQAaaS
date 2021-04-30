@@ -22,7 +22,7 @@ The APIs are exposed through HTTPS via the Kubernetes'
 [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/) that is automatically installed
 by the IM.
 
-### APIs deployment
+### APIs & Web deployment
 
 As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS API
 server in a Kubernetes cluster. Hence, from the root path of the repository, run:
@@ -50,13 +50,16 @@ INI file](https://github.com/EOSC-synergy/sqaaas-api-server/blob/master/etc/sqaa
 is distributed with the application.
 * SQAaaS API INI file: `./k8s/sqaaas.ini`
 
-### Testing
+### API Testing
 The deployed API server can be accessed through the following URI: `http://<master_node_ip>/sqaaas/v1/`
  
 As an example, the following example lists the currently existing pipelines:
 ```
 $ curl http://<master_node_ip>/sqaaas/v1/pipeline
 ```
+
+### Web Testing
+The deployed Web application can be accessed through the following URI: `http://<master_node_ip>/sqaaas-web/`
   
 ### Staging and development APIs
 Additionally, within the development process, it could be useful to deploy the staging (stub) and 
