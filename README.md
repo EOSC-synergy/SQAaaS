@@ -9,6 +9,8 @@ This is a catch-all repository for the SQAaaS platform, which is developed under
 * OpenAPI specification [`sqaaas-api-spec`](https://github.com/eosc-synergy/sqaaas-api-spec)
 * API server [`sqaaas-api-server`](https://github.com/eosc-synergy/sqaaas-api-server)
 * Web GUI [`sqaaas-web`](https://github.com/eosc-synergy/sqaaas-web)
+* Badgr API server [`badgr-server`](https://github.com/concentricsky/badgr-server)
+* Badgr UI [`badgr-ui`](https://github.com/concentricsky/badgr-ui)
 
 ## Deployment
 
@@ -50,6 +52,11 @@ INI file](https://github.com/EOSC-synergy/sqaaas-api-server/blob/master/etc/sqaa
 is distributed with the application.
 * SQAaaS API INI file: `./k8s/sqaaas.ini`
 
+##### Badgr API TLS certificates
+Badgr API uses HTTPS secured port 8443 and it requires TLS certificates to be configured.
+* Server certificate: `./k8s/server.crt`
+* Server private key: `./k8s/server.key`
+
 ### API Testing
 The deployed API server can be accessed through the following URI: `http://<master_node_ip>/sqaaas/v1/`
  
@@ -60,7 +67,12 @@ $ curl http://<master_node_ip>/sqaaas/v1/pipeline
 
 ### Web Testing
 The deployed Web application can be accessed through the following URI: `http://<master_node_ip>/sqaaas-web/`
-  
+
+### Badgr Testing
+The deployed Badgr UI Web application can be accessed through the following URI: `http://<master_node_ip>/badgr/`
+The Badgr API can be accessed through the following URI: `https://<master_node_ip>:8443/`
+
+
 ### Staging and development APIs
 Additionally, within the development process, it could be useful to deploy the staging (stub) and 
 development (mock) API servers. The `./k8s/` folder contains the YAMLs for deploying these APIs, so
