@@ -1,0 +1,23 @@
+namespace: badgr
+resources:
+  - namespace.yaml
+  - badgr.yaml
+secretGenerator:
+- name: badgrserver
+  files:
+  - server.crt
+  - server.key
+- name: mysql
+  literals:
+  - rootpassword=badgr-mysql-root-pass
+  - password=badgr-mysql-pass
+configMapGenerator:
+- name: badgrserver
+  files:
+    - settings_local.py
+- name: badgrui
+  files:
+    - nginx.conf
+- name: mysql-db-init
+  files:
+    - badgr.sql
