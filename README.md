@@ -21,6 +21,8 @@ This is a catch-all repository for the SQAaaS platform, which is developed under
   * Tooling metadata [`sqaaas-tooling`](https://github.com/eosc-synergy/sqaaas-tooling)
   * Reporting plugins [`sqaaas-reporting`](https://github.com/eosc-synergy/sqaaas-reporting)
 * Web GUI [`sqaaas-web`](https://github.com/eosc-synergy/sqaaas-web)
+* Badgr API server [`badgr-server`](https://github.com/concentricsky/badgr-server)
+* Badgr UI [`badgr-ui`](https://github.com/concentricsky/badgr-ui)
 
 ## Deployment
 
@@ -34,7 +36,7 @@ The APIs are exposed through HTTPS via the Kubernetes'
 [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/) that is automatically installed
 by the IM.
 
-### APIs deployment
+### APIs & Web deployment
 
 As simple as using the `kustomization.yaml` file to orchestrate the SQAaaS API
 server in a Kubernetes cluster. Hence, from the root path of the repository, run:
@@ -62,14 +64,19 @@ INI file](https://github.com/EOSC-synergy/sqaaas-api-server/blob/master/etc/sqaa
 is distributed with the application.
 * SQAaaS API INI file: `./k8s/sqaaas.ini`
 
-### Testing
+
+### API Testing
 The deployed API server can be accessed through the following URI: `http://<master_node_ip>/sqaaas/v1/`
  
 As an example, the following example lists the currently existing pipelines:
 ```
 $ curl http://<master_node_ip>/sqaaas/v1/pipeline
 ```
-  
+
+### Web Testing
+The deployed Web application can be accessed through the following URI: `http://<master_node_ip>/sqaaas-web/`
+
+
 ### Staging and development APIs
 Additionally, within the development process, it could be useful to deploy the staging (stub) and 
 development (mock) API servers. The `./k8s/` folder contains the YAMLs for deploying these APIs, so
@@ -94,6 +101,26 @@ development APIs:
   ```
   $ curl http://<master_node_ip>/sqaaas-dev/pipeline/
   ```
+
+### Badgr deployment
+
+Also using the `kustomization.yaml` file to orchestrate the Badgr
+server in a Kubernetes cluster. Hence, from the root path of the repository, run:
+
+```
+kubectl apply -k k8s_badgr
+```
+
+##### Badgr API TLS certificates
+Badgr API uses HTTPS secured port 8443 and it requires TLS certificates to be configured.
+* Server certificate: `./k8s_badgr/server.crt`
+* Server private key: `./k8s_badgr/server.key`
+
+
+### Badgr Testing
+The deployed Badgr UI Web application can be accessed through the following URI: `http://<master_node_ip>/badgr/`.
+The Badgr API can be accessed through the following URI: `https://<master_node_ip>:8443/`.
+The Badgr server configuration portal can be accessed through the following URI: `https://<master_node_ip>:8443/staff/`
 
 ---
 **NOTE**
